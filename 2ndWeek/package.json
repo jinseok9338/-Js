@@ -1,0 +1,16 @@
+{
+  "name": "2ndweek",
+  "version": "1.0.0",
+  "description": "Practice app of 2nd week",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Jinseok Seo",
+  "license": "ISC",
+  "dependencies": {
+    "ejs": "^3.1.8",
+    "express": "^4.18.1",
+    "socket.io": "^4.5.1"
+  }
+}
