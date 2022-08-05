@@ -28,6 +28,7 @@ io.on("connection", function (socket) {
     console.log("user disconnected: " + socket.id + " " + socket.name);
   });
 
+  // 다른 유저가 타이핑 중임을 나타내기 위한 코드
   socket.on("typing", (name) => {
     console.log(`user ${name} is typing`);
     io.emit("istyping", `user ${name} is typing`, name);

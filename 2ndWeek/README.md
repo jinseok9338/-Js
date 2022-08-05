@@ -12,10 +12,10 @@ Express.js 와 Socket io 를 이용하여 간단한 챗 기능 구현
 
 index.js
 
-![index.js](./2ndWeek/public/capture/index.js.png)
+![index.js](./public/capture/index.js.png)
 
 index.html
-![index.html](./2ndWeek/public/capture/index.html.png)
+![index.html](./public/capture/index.html.png)
 
 결과
-![결과](./2ndWeek/public/capture/capture.gif)
+![결과](./public/capture/capture.gif)

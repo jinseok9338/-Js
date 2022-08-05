@@ -44,7 +44,7 @@
         e.preventDefault();
       });
 
-      $("#message").keypress(() => {
+      $("#message").keydown(() => {
         var inputLength = $("#message").val(); //입력한 값의 글자수
 
         // 만약 input 에 친 값이 0 글자가 아니면 is typing message 발산
@@ -57,16 +57,20 @@
         console.log(msg, name);
         // check if the id is not me ...
 
+        // .5초 후에 지우기 위한 setTimeout Promise 를 리턴 하는 함수
+        // global function 보다는 local function 으로 만들어야 하나... 일단 시간 관계상... ㅎㅎ
         function delay(t, v) {
           return new Promise(function (resolve) {
             setTimeout(resolve.bind(null, v), t);
           });
         }
 
+        // setTimeOut 에 들어가는 함수... input 의 메세지를 ""로 만든다.
         function setTheIstyping() {
           $("#message").val(msg);
         }
 
+        // delay function 으로 500ms 을 기다린 후에 message를 ""로 만들어줌
         if (name != $("#name").val()) {
           console.log("someone is typing");
           setTheIstyping();
