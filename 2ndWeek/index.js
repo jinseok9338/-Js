@@ -28,6 +28,11 @@ io.on("connection", function (socket) {
     console.log("user disconnected: " + socket.id + " " + socket.name);
   });
 
+  socket.on("typing", (name) => {
+    console.log(`user ${name} is typing`);
+    io.emit("istyping", `user ${name} is typing`, name);
+  });
+
   socket.on("send message", function (name, text) {
     var msg = name + " : " + text;
     socket.name = name;

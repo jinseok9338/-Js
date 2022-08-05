@@ -43,6 +43,39 @@
         $("#message").focus();
         e.preventDefault();
       });
+
+      $("#message").keypress(() => {
+        var inputLength = $("#message").val(); //입력한 값의 글자수
+
+        // 만약 input 에 친 값이 0 글자가 아니면 is typing message 발산
+        if (inputLength.length != 0) {
+          socket.emit("typing", $("#name").val());
+        }
+      });
+
+      socket.on("istyping", function (msg, name) {
+        console.log(msg, name);
+        // check if the id is not me ...
+
+        function delay(t, v) {
+          return new Promise(function (resolve) {
+            setTimeout(resolve.bind(null, v), t);
+          });
+        }
+
+        function setTheIstyping() {
+          $("#message").val(msg);
+        }
+
+        if (name != $("#name").val()) {
+          console.log("someone is typing");
+          setTheIstyping();
+          delay(500).then(() => {
+            $("#message").val("");
+          });
+        }
+      });
+
       socket.on("create name", function (name) {
         $("#name").val(name);
       });
