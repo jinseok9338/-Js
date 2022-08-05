@@ -4,13 +4,17 @@ var bingo = {
   is_my_turn: Boolean,
   socket: null,
 
-  init: function (socket) {
+  init: function () {
+    //socket 을 넣어줄 필요가 없었다  단순히 나중에 socket 을
+    // 정의 해주면 된다 ...
+    // 이게 자바스크립트 의 문제이다...
     var self = this;
     var user_cnt = 0;
 
     this.is_my_turn = false;
+    var username = window.prompt("당신의 이름은 무엇입니까?", "");
 
-    socket = io();
+    let socket = io();
 
     socket.on("check_number", function (data) {
       self.where_is_it(data.num);
@@ -26,12 +30,15 @@ var bingo = {
     socket.on("update_users", function (data, user_count) {
       console.log(data);
       user_cnt = user_count;
-      self.update_userlist(data, socket);
+      console.log(user_cnt);
+      // self.update_userlist(data, socket);
     });
 
     //join
     socket.on("connect", function () {
-      socket.emit("join", { username: $("#username").val() });
+      socket.emit("join", { username: username });
+      let child = `<span class="message">${username}님 빙고에 온것을 환영합니다  </span>`;
+      $(".logs").append(child);
     });
 
     var numbers = [];
@@ -46,7 +53,7 @@ var bingo = {
       return isOddOrEven * isPosOrNeg;
     });
 
-    $("table.bingo-board td").each(function (i) {
+    $(".mark").each(function (i) {
       $(this).html(numbers[i]);
 
       $(this).click(function () {
@@ -64,7 +71,12 @@ var bingo = {
       } else {
         socket.emit("game_start", { username: $("#username").val() });
         self.print_msg("<알림> 게임을 시작했습니다.");
+        $(".logs").empty();
         $("#start_button").hide();
+        $(".checkbox").each(() => {
+          $(this).prop("disabled", false);
+          console.log("disabled false");
+        });
       }
     });
   },
@@ -104,7 +116,7 @@ var bingo = {
 
   update_userlist: function (data, this_socket) {
     var self = this;
-    $("#list").empty();
+
     console.log(data);
 
     $.each(data, function (key, value) {
@@ -117,11 +129,11 @@ var bingo = {
         }
       }
       if (value.id == this_socket.id) {
-        $("#list").append(
+        $(".logs").append(
           "<font color='DodgerBlue'>" + turn + value.name + "<br></font>"
         );
       } else {
-        $("#list").append(
+        $(".logs").append(
           "<font color='black'>" + turn + value.name + "<br></font>"
         );
       }
@@ -129,8 +141,8 @@ var bingo = {
   },
 
   print_msg: function (msg) {
-    $("#logs").append(msg + "<br />");
-    $("#logs").scrollTop($("#logs")[0].scrollHeight);
+    $(".logs").append(msg + "<br />");
+    $(".logs").scrollTop($(".logs")[0].scrollHeight);
   },
 };
 

@@ -8,22 +8,15 @@ var path = require("path");
 const { v4: uuidv4 } = require("uuid");
 
 // view engine setup
-app.set("views", path.join(__dirname, "views"));
-app.set("view engine", "pug");
+app.set("views", "./views");
+app.set("view engine", "ejs");
+app.engine("html", require("ejs").renderFile);
 app.use(express.static(path.join(__dirname, "public")));
 
 app.get("/", (req, res) => {
   // check if the username exists... reroute to random name
   // `
-  const username = req.query.username;
-  if (!username) {
-    res.redirect(`/?username=${uuidv4()}`);
-  }
-
-  res.render("main", {
-    title: "온라인 빙고 게임",
-    username: req.query.username,
-  });
+  res.render("index.html");
 });
 
 var users = {};
@@ -34,7 +27,11 @@ io.on("connection", function (socket) {
   console.log("user connected : ", socket.id);
 
   socket.on("join", function (data) {
-    var username = data.username;
+    var username = data.username; //  $("#username").val()
+    if (!username) {
+      username = uuidv4();
+    }
+
     socket.username = username;
 
     users[user_count] = {};
@@ -42,6 +39,7 @@ io.on("connection", function (socket) {
     users[user_count].name = username;
     users[user_count].turn = false;
     user_count++;
+    console.log(users);
 
     io.emit("update_users", users, user_count);
   });
