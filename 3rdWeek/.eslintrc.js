@@ -17,5 +17,31 @@ module.exports = {
       { avoidEscape: true },
       { allowTemplateLiterals: true },
     ],
+    "import/extensions": [
+      "error",
+      "ignorePackages",
+      {
+        js: "never",
+        mjs: "never",
+        jsx: "never",
+        ts: "never",
+        tsx: "never",
+      },
+    ],
   },
+  settings: {
+    "import/resolver": {
+      node: {
+        extensions: [".js", ".jsx", ".ts", ".tsx"],
+      },
+    },
+  },
+  overrides: [
+    {
+      files: ["tests/*"],
+      env: {
+        jest: true,
+      },
+    },
+  ],
 };
