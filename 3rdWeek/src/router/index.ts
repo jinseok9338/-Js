@@ -1,6 +1,6 @@
 import express from "express";
-import { Schema } from "mongoose";
-import { memoModel, Memo, IMemo } from "../schema/memo";
+
+import { memoModel, Memo } from "../schema/memo";
 
 let router = express.Router();
 
@@ -47,8 +47,8 @@ router.post("/del", async function (req, res, next) {
 });
 
 router.post("/modify", function (req, res, next) {
-  var _id = req.body._id;
-  var contents = req.body.contents;
+  let _id = req.body._id;
+  let contents = req.body.contents;
 
   memoModel
     .updateOne({ _id: _id }, { contents: contents })
