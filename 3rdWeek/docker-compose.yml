@@ -14,7 +14,7 @@ services:
       - MONGO_INITDB_DATABASE=mydb
 
   express-app:
-    image: ./Dockerfile
+    build: .
     restart: always
     ports:
       - 5000
