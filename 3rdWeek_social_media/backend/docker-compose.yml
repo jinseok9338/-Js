@@ -1,0 +1,39 @@
+version: "3.9"
+
+services:
+  mongodb:
+    image: mongo:5.0
+    ports:
+      - 27017:27017
+    volumes:
+      - ~/apps/mongo:/data/db
+    environment:
+      # Provide your own authentication
+      - MONGO_INITDB_ROOT_USERNAME=citizix
+      - MONGO_INITDB_ROOT_PASSWORD=S3cret
+      - MONGO_INITDB_DATABASE=mydb
+
+  redis:
+    image: redis:6.0.5
+    command: redis-server --requirepass changeme --port 6379
+    container_name: redis6379
+    hostname: redis6379
+    labels:
+      - "name=redis"
+      - "mode=standalone"
+    ports:
+      - 6379:6379
+
+  express-app:
+    build: .
+    restart: always
+    ports:
+      - 5000
+    environment:
+      - MONGODB=mongodb # mongodb 커네이너 이름
+      - MONGODB_PORT=27017
+      - MONGOUSERNAME=citizix
+      - MONGOPASSWORD=S3cret
+
+    depends_on:
+      - mongodb
